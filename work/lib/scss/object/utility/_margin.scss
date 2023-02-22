@@ -1,0 +1,33 @@
+$step: 4;
+$from: 0;
+$through: 100;
+$count: math-div($through,$step);
+
+@for $i from $from through $count {
+  $number: $step * $i; 
+  .u-ma-#{$number} {
+    @include --all {
+      margin: $number+px !important;
+    }
+  }
+  .u-mt-#{$number} {
+    @include --all {
+      margin-top: $number+px !important;
+    }
+  }
+  .u-mr-#{$number} {
+    @include --all {
+      margin-right: $number+px !important;
+    }
+  }
+  .u-mb-#{$number} {
+    @include --all {
+      margin-bottom: $number+px !important;
+    }
+  }
+  .u-ml-#{$number} {
+    @include --all {
+      margin-left: $number+px !important;
+    }
+  }
+}

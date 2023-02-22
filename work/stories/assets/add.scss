@@ -1,0 +1,12 @@
+// 以下はwebpackでimport
+// @import '@src/scss/foundation/variable/_variable.scss';
+// @import '@src/scss/foundation/mixin/_mixin.scss';
+
+// globパターンはalias(@)使わずに記述
+// @import '../../lib/scss/foundation/base/**/*.scss';
+// @import '../../lib/scss/layout/**/*.scss';
+// @import '../../lib/scss/object/utility/**/*.scss';
+
+
+// @import 'foundation/mixin/_mixin.scss';
+@import '../../stories/components/**/*.scss';

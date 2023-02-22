@@ -1,0 +1,29 @@
+html {
+  font-size: $fontBaseSP;
+  @include pc() {
+    font-size: $fontBasePC;
+  }
+}
+body {
+  line-height: 1.5;
+  @include sp() {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}

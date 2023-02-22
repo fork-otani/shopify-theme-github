@@ -1,0 +1,26 @@
+// .step-item{
+//   &__list{
+//     display:flex;
+//     margin-bottom: 20px;
+//     @include sp(){
+//       flex-wrap: wrap;
+//     }
+//   }
+//   &__item{
+//     width:33%;
+//     padding:10px;
+//     @include sp(){
+//       width:50%;
+//     }
+//     img{
+//       width:100%;
+//     }
+//   }
+//   &__text{
+//     text-align:center;
+//     font-weight:bold;
+//     @include sp(){
+//       text-align:left;
+//     }
+//   }
+// }

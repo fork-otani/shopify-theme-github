@@ -1,0 +1,6 @@
+@function remSP($size) {
+  @return math-div($size,$fontBaseSP)+rem;
+}
+@function remPC($size) {
+  @return math-div($size,$fontBasePC)+rem;
+}

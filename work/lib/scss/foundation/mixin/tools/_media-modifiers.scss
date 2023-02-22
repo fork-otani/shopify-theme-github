@@ -1,0 +1,63 @@
+@mixin --sp {
+  @include sp {
+    &--sp {
+      @content;
+    }
+  }
+}
+@mixin --pc {
+  @include pc {
+    &--pc {
+      @content;
+    }
+  }
+}
+@mixin --all {
+  @content;
+  @include pc {
+    &--pc {
+      @content;
+    }
+  }
+  @include sp {
+    &--sp {
+      @content;
+    }
+  }
+}
+
+//- @メディアclassの入力補完ヘルパー
+//- 例）
+//- .u-text-left, .u-text-left--pc, .u-text-left--spが必要な場合
+//-
+//- .u-text-left {
+//-   text-align: left !important;
+//-   &--pc {
+//-     @include pc {
+//-       text-align: left !important;
+//-     }
+//-   }
+//-   &--sp {
+//-     @include sp {
+//-       text-align: left !important;
+//-     }
+//-   }
+//- 
+//- これをこう書ける
+//- 
+//- .u-text-left {
+//-   @include --all {
+//-     text-align: left !important;
+//-   }
+//- }
+//- 
+//- 個別の指定も可能
+//- 
+//- .u-font-small {
+//-   @include --pc {
+//-     font-size: 14px
+//-   }
+//-   @include --sp {
+//-     font-size: 12px
+//-   }
+//- }

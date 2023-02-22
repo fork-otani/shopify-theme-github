@@ -1,0 +1,34 @@
+mixin test()
+  |
+mixin Block(id="test")
+  //- - var name=name;
+  section.custom-html-section.wrapper.custom-html-section--padding(data-section-id='{{ section.' + id + ' }}' data-section-type='product-data-' + id)
+    div(class='product-data-' + id)
+      block
+
+//- link(rel="stylesheet" href="components/step/step.css")
+link(rel="stylesheet" href="assets/add.css")
+
+
++Block("step")
+  .step-item__list
+    .step-item__item
+      img(src="//cdn.shopify.com/s/files/1/0594/0130/6295/files/icon_step-01.png?v=1633491613")
+      .step-item__text
+        | ①商品を選ぶ
+    .step-item__item
+      img(src="//cdn.shopify.com/s/files/1/0594/0130/6295/files/icon_step-02.png?v=1633491613")
+      .step-item__text
+        | ②自転車屋さんを選ぶ
+    .step-item__item
+      img(src="//cdn.shopify.com/s/files/1/0594/0130/6295/files/icon_step-03.png?v=1633491613")
+      .step-item__text
+        | ③オンラインショップでお支払
+    .step-item__item
+      img(src="//cdn.shopify.com/s/files/1/0594/0130/6295/files/icon_step-04.png?v=1633491613")
+      .step-item__text
+        | ④商品受取の日にちを決定
+    .step-item__item
+      img(src="//cdn.shopify.com/s/files/1/0594/0130/6295/files/icon_step-05.png?v=1633491613")
+      .step-item__text
+        | ⑤自転車屋さんで商品を受取る

@@ -1,0 +1,62 @@
+.st-doc
+  link(rel="stylesheet" href="components/js-modal/js-modal.css")
+  script(src='//code.jquery.com/jquery-3.6.0.min.js' type='text/javascript')
+  //- script(src='assets/js-modal.js' type='text/javascript')
+  script.
+    $(function(){
+      $('.js-modal-open').on('click', function(){
+        var id = $(this).data('id');
+        $('.js-modal[data-id="' + id + '"]')
+          .find('.js-modal-overlay').fadeIn().end()
+          .find('.js-modal-container').fadeIn().css('display','flex');
+      });
+      $('.js-modal-close,.js-modal-overlay').on('click', function(){
+        $(this).closest('.js-modal')
+          .find('.js-modal-overlay').fadeOut().end()
+          .find('.js-modal-container').fadeOut();
+      });
+    })
+
+  div
+    button.btn.btn--input.btn--outline.js-modal-open(data-id="modal1") モーダル1を開く
+    button.btn.btn--input.btn--outline.js-modal-open(data-id="modal2") モーダル2を開く
+
+    .js-modal(data-id="modal1")
+      .js-modal-overlay
+      .js-modal-container
+        .js-modal-content
+          .js-modal-content__close.js-modal-close
+            include ../../../../snippets/icon-close.liquid
+          .js-modal-content__body
+            | test
+
+    .js-modal(data-id="modal2")
+      .js-modal-overlay
+      .js-modal-container
+        .js-modal-content
+          .js-modal-content__close.js-modal-close
+            include ../../../../snippets/icon-close.liquid
+          .js-modal-content__body
+            p
+              | test2
+            .js-modal-close.btn.btn--outline 閉じる
+
+  :md
+    # モーダル
+    タグ埋め込み型のモーダル
+
+    ## 使い方
+    下にあるモーダルのタグを埋め込んで、data-idをセットする
+
+    - 開くボタン → `.js-modal-open(data-id="開くモーダルのID")`付ける
+    - 閉じるボタン → `.js-modal-close`を付ける
+
+  :code
+    button.js-modal-open(data-id="modal1") モーダル1を開く
+    .js-modal(data-id="modal1")
+      .js-modal-overlay
+      .js-modal-container
+        .js-modal-content
+          .js-modal-content__close.js-modal-close ×
+          .js-modal-content__body
+            | test

@@ -1,0 +1,15 @@
+node_modules
+.cache-loader
+
+# エラー関係
+#package-lock.json
+yarn-error.log
+npm-debug.log
+debug.log
+
+# エディタなどで生成されるファイル
+.idea
+.vscode
+.project
+.history
+.DS_Store

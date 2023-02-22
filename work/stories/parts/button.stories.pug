@@ -1,0 +1,55 @@
+h1 ボタン
+
+h2 基本形
+.btn default
+.btn.btn--link link
+.btn.btn--neutral neutral
+.btn.btn--input input
+span.text-link text
+
+h2 カラー
+.btn.btn--primary primary
+.btn.btn--secondary secondary
+
+h2 カラー(テキストのみホバー)
+.btn.btn--white white
+.btn.btn--black black
+.btn
+  | アイコン付き
+  img.icon(src="assets/ico-select.svg")
+
+//- :code
+//-   .btn.btn--primary primary
+//-   .btn.btn--secondary secondary
+
+h2 アウトライン
+div
+  .btn.btn--outline outline
+  .btn.btn--outline.btn--black outline+black
+  .btn.btn--outline.btn--neutral outline+neutral
+
+h2 サイズ
+div
+  .btn.btn--small small
+div
+  .btn.btn--large large
+div
+  .btn.btn--half half
+div
+  .btn.btn--full full
+
+h2 ボタンのテキスト大
+.btn.btn--primary.caps--large primary+caps--large
+.btn.btn--secondary.caps--large secondary+caps--large
+.btn.btn--link.caps--large link+caps--large
+.btn.btn--neutral.caps--large neutral+caps--large
+.btn.btn--black.caps--large black+caps--large
+.btn.btn--white.caps--large white+caps--large
+
+
+h2 丸いボタン
+p paddingの調整必要
+.btn.btn--pill pill
+.btn.btn--pill
+  | pill
+  img.icon(src="assets/ico-select.svg")

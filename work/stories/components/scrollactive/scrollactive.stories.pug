@@ -1,0 +1,27 @@
+link(rel="stylesheet" href="components/c-form.css")
+link(rel="stylesheet" href="components/scrollactive/scroll-box.css")
+div(style="margin:30px auto;max-width:500px;padding:20px;")
+  .scroll-box(style="margin-bottom:20px;")
+    .js-scroll-active.scroll-box__inner(data-target="#check-ok" style="height:400px;")
+      include kiyaku.html
+  button.btn.btn--disabled(type="button")
+    label.c-checkbox
+      input(type="checkbox" value="OK" disabled id="check-ok")
+      label(for="check-ok") 規約に同意する
+
+script(src='//code.jquery.com/jquery-3.6.0.min.js' type='text/javascript')
+script.
+  $(function() {
+    $('.js-scroll-active').on('scroll', function() {
+      //全長を取得
+      scrollHeight = $(this).get(0).scrollHeight;
+      //スクロールした高さを取得
+      scrollPosition = $(this).height() + $(this).scrollTop();
+      //スクロールの位置が下部何%の範囲に来た場合の処理(例:3%)
+      if ((scrollHeight - scrollPosition) / scrollHeight <= 0.03) {
+        $($(this).data('target'))
+          .removeAttr('disabled')
+          .closest('.btn').removeClass('btn--disabled');
+      }
+    });
+  });

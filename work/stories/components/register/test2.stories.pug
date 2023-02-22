@@ -1,0 +1,201 @@
+//- link(rel="stylesheet" href="components/c-customer.css")
+//- script.
+
+
+main#MainContent.main-content(role='main')
+  link(href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' rel='stylesheet' type='text/css' media='all')
+  link(rel='stylesheet' href='//cdn.shopify.com/s/files/1/0594/0130/6295/t/2/assets/add.css?v=3735936458007692391')
+  style.
+    .form-item{margin-bottom:30px}
+    .c-form__group{margin-top:-5px;}
+    .select__fieldset .select__label{margin-bottom:0px;font-weight:bold;}
+    .radio__legend__label{font-weight:bold;}
+    @media only screen and (max-width: 479px) {
+      .radio_fieldset{margin-bottom:0;}
+    }
+    @media only screen and (min-width: 480px) {
+      .c-form__group .c-form__option{padding:10px 20px;}
+    }
+  section#Register.center.account
+    section.col
+      .customer-register
+        h2.theme 新規会員登録
+        p
+          | 既にアカウントをお持ちですか？
+          span.text-link
+            a(href='/account/login') ログインはこちらから
+          | .
+        form#create_customer(method='post' accept-charset='UTF-8' x-data="form()" @submit="submit" @focusout="update" @input="update" @change="update" x-cloak)
+          input(type='hidden' name='form_type' value='create_customer')
+          input(type='hidden' name='utf8' value='✓')
+
+          .form-item.select__fieldset(style='max-width:none')
+            label.select__label 氏名
+            .form-field
+              input#last_name.large(type="text" name="customer[last_name]" placeholder="姓" data-rules='["required"]' x-model="valid('customer[last_name]').value")
+              <p class="error-message" x-show="valid('customer[last_name]').errorMessage" x-text="valid('customer[last_name]').errorMessage" x-transition:enter></p>
+              input#first_name.large(type="text" name="customer[first_name]" placeholder="名" data-rules='["required"]' x-model="valid('customer[first_name]').value")
+              <p class="error-message" x-show="valid('customer[first_name]').errorMessage" x-text="valid('customer[first_name]').errorMessage" x-transition:enter></p>
+
+          .form-item(style='max-width:none' data-name='customer[note][同居家族構成]' data-rules='["checked"]')
+            fieldset.radio__fieldset
+              legend.radio__legend.radio__legend--flex
+                span.radio__legend__label 同居家族構成
+            .c-form__group
+              label.c-checkbox.c-form__option
+                input(type='checkbox' value='本人' name='customer[note][同居家族構成][]' x-model='valid("customer[note][同居家族構成]").value')
+                span 本人
+              label.c-checkbox.c-form__option
+                input(type='checkbox' value='配偶者' name='customer[note][同居家族構成][]' x-model='valid("customer[note][同居家族構成]").value')
+                span 配偶者
+              label.c-checkbox.c-form__option
+                input(type='checkbox' value='社会人のお子様' name='customer[note][同居家族構成][]' x-model='valid("customer[note][同居家族構成]").value')
+                span 社会人のお子様
+              label.c-checkbox.c-form__option
+                input(type='checkbox' value='大学生のお子様' name='customer[note][同居家族構成][]' x-model='valid("customer[note][同居家族構成]").value')
+                span 大学生のお子様
+              label.c-checkbox.c-form__option
+                input(type='checkbox' value='その他' name='customer[note][同居家族構成][]' x-model='valid("customer[note][同居家族構成]").value')
+                span その他
+            p.error-message(x-show='valid("customer[note][同居家族構成]").errorMessage' x-text='valid("customer[note][同居家族構成]").errorMessage')
+
+          .form-item.select__fieldset(style='max-width:none' data-name='customer[note][都道府県]' data-rules='["checked"]')
+            label.select__label お住まいの地域
+            select(name='customer[note][都道府県]' x-model='valid("customer[note][都道府県]").value')
+              option(value selected) 都道府県
+              option(value='北海道') 北海道
+              option(value='青森県') 青森県
+            p.error-message(x-show='valid("customer[note][都道府県]").errorMessage' x-text='valid("customer[note][都道府県]").errorMessage')
+
+          .form-field.action-bottom
+            input.btn.btn--full(type='submit' value='登録する')
+
+
+script(src='//code.jquery.com/jquery-3.6.0.min.js' type='text/javascript')
+script(src='//code.jquery.com/ui/1.12.1/jquery-ui.min.js' type='text/javascript')
+script(src='//rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-ja.js' type='text/javascript')
+script(src='https://cdn.jsdelivr.net/gh/mattkingshott/iodine/dist/iodine.min.umd.js')
+script.
+  function form(){
+    return {
+      _validate:{},
+      checkElements: [],
+      update: function(event) {
+        let valid = this.valid(this.getValidName(event.target));
+        //- console.log(event.target)
+        //- console.log(event.type)
+        if (!valid) {
+          return false;
+        }
+        if (event.type == "focusout" || event.type == "change") {
+          console.log(valid)
+          valid.blurred = true;
+        }
+        this.updateErrorMessages();
+      },
+      submit: function (event) {
+        event.preventDefault();
+        const invalidElements = this.checkElements.filter((ele) => {
+          const test = this.valid(this.getValidName(ele)).value
+          //- console.log("valid")
+          console.log(ele.dataset.rules)
+          return Iodine.is(test, JSON.parse(ele.dataset.rules)) !== true;
+        });
+        console.log("invalid")
+        console.log(invalidElements.length)
+        if (invalidElements.length > 0) {
+          event.preventDefault();
+          //- document.getElementById(invalidElements[0].id).parentNode.parentNode.scrollIntoView();
+          //- console.log(document.getElementById(invalidElements[0].id))
+          //- console.log(document.getElementById(invalidElements[0].id).parentNode.parentNode)
+          // 全部の入力項目をエラー表示の対象にするためblurredにする
+          this.checkElements.map((ele) => {
+            console.log(this.valid(this.getValidName(ele)))
+            this.valid(this.getValidName(ele)).blurred = true;
+          });
+          this.updateErrorMessages();
+        }
+      },
+      date(event){
+        //- console.log("date")
+        this.valid(event.target.name).errorMessage = this.getErrorMessage(event.target);
+        Iodine.is(event.target.value, JSON.parse(['required']))
+        this.updateErrorMessages()
+        //- console.log(this.valid(event.target.name))
+      },
+      updateErrorMessages: function () {
+        console.log("message")
+        this.checkElements.map((ele) => {
+          //- console.log(ele)
+
+          this.valid(this.getValidName(ele)).errorMessage = this.getErrorMessage(ele);
+        });
+        console.log(this.valid())
+      },
+      getErrorMessage: function(ele){
+        console.log("error")
+        console.log(this.valid(this.getValidName(ele)))
+        const error = Iodine.is(this.valid(this.getValidName(ele)).value, JSON.parse(ele.dataset.rules));
+        //- console.log(ele.name)
+        //- console.log("error")
+        //- console.log(error)
+
+        if (error !== true && this.valid(this.getValidName(ele)).blurred) {
+          return Iodine.getErrorMessage(error);
+        }
+        return '';
+      },
+      valid(name=''){
+        return name != '' ? this._validate[name] : null
+        //- return name != '' ? this._validate[name] : this._validate
+      },
+      setValid(name,data){
+        this._validate[name] = data
+      },
+      getValidName(ele){
+        return ele.dataset.name ? ele.dataset.name : ele.name.replace('][]',']')
+      },
+      init(){
+        this.setCustomRules()
+        this.checkElements = [...this.$el.querySelectorAll("[data-rules]")];
+        this.initDomData()
+      },
+      initDomData: function () {
+        this.checkElements.map((ele) => {
+          this.setValid(this.getValidName(ele) ,{
+            type: ele.type ? 'input':'check',
+            errorMessage:'',
+            value: ele.dataset.name ? []:'' ,
+            blurred: false
+          })
+        });
+        console.log(this.valid())
+      },
+      setCustomRules(){
+        Iodine.addRule('checked', (value) => {
+          //- console.log("ischeck")
+          //- console.log(value.length)
+          //- console.log(Iodine.isArray(value))
+          //- console.log(value.length > 0)
+          return Iodine.isArray(value) ? value.length > 0 : value != ''
+        });
+        //- Iodine.setErrorMessage('checked', '選択してください');
+        Iodine.messages.checked = "選択してください";
+        //- Iodine.addRule("requiredChoice", (value, name) => {
+        //-   return document.querySelector('input[name="' + name + '"]:checked') != null;
+        //- });
+        //- Iodine.messages.requiredChoice = "選択してください";
+        Iodine.setErrorMessage("required", "入力してください");
+        Iodine.setErrorMessage("email", "メールアドレスが正しくありません");
+        Iodine.setErrorMessage("minLength", "[PARAM]文字以上で入力してください");
+      }
+    };
+  }
+script(src='https://unpkg.com/alpinejs@3.3.4/dist/cdn.min.js')
+
+.st-doc
+  :md
+    # 防犯登録の店舗選択
+    APIの仕様が確認できるまでの仮の構成
+    モーダルの機能自体は.js-modalの方で実装している
+    モーダルの動きに合わせて何かする場合は@clickとかで動作を追加すればOK

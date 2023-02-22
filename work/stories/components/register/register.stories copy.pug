@@ -1,0 +1,344 @@
+link(rel="stylesheet" href="components/c-form.css")
+//- script.
+
+
+main#MainContent.main-content(role='main')
+  link(href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' rel='stylesheet' type='text/css' media='all')
+  link(rel='stylesheet' href='//cdn.shopify.com/s/files/1/0594/0130/6295/t/2/assets/add.css?v=3735936458007692391')
+  style.
+    .form-item{margin-bottom:30px}
+    .c-form__group{margin-top:-5px;}
+    .select__fieldset .select__label{margin-bottom:0px;font-weight:bold;}
+    .radio__legend__label{font-weight:bold;}
+    @media only screen and (max-width: 479px) {
+      .radio_fieldset{margin-bottom:0;}
+    }
+    @media only screen and (min-width: 480px) {
+      .c-form__group .c-form__option{padding:10px 20px;}
+    }
+  section#Register.center.account
+    section.col
+      .customer-register
+        h2.theme 新規会員登録
+        p
+          | 既にアカウントをお持ちですか？
+          span.text-link
+            a(href='/account/login') ログインはこちらから
+          | .
+        form#create_customer(method='post' accept-charset='UTF-8' x-data="form()" @focusout="change" @input="change" @submit="submit")
+          input(type='hidden' name='form_type' value='create_customer')
+          input(type='hidden' name='utf8' value='✓')
+          .form-field.
+
+
+          .form-item.select__fieldset(style='max-width:none')
+            label.select__label 氏名
+            .form-field
+              input#last_name.large(type='text' name='customer[last_name]' placeholder='姓' data-rules='["required"]' data-server-errors='[1]')
+              <p class="error-message" x-show="customer__last_name.errorMessage" x-text="customer__last_name.errorMessage" x-transition:enter></p>
+              input#first_name.large(type='text' name='customer[first_name]' placeholder='名' data-rules='["required"]' data-server-errors='[]')
+              <p class="error-message" x-show="customer__first_name.errorMessage" x-text="customer__first_name.errorMessage" x-transition:enter></p>
+          //- .form-item.select__fieldset(style='max-width:none')
+          //-   label.select__label 氏名（カナ）
+          //-   .form-field
+          //-     input#last_name_kana.large(type='text' name='customer[note][姓（カナ）]' placeholder='姓（カナ）' required)
+          //-     input#first_name_kana.large(type='text' name='customer[note][名（カナ）]' size='30' placeholder='名（カナ）' required)
+          //- .form-item.select__fieldset(style='max-width:none')
+          //-   label.select__label メールアドレス
+          //-   .form-field
+          //-     input#email.large(type='email' name='customer[email]' placeholder='メールアドレス' required pattern='^[a-zA-Z0-9.!#$&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$')
+          //- .form-item.select__fieldset(style='max-width:none')
+          //-   label.select__label パスワード
+          //-   .form-field
+          //-     input#password.large.password(type='password' name='customer[password]' placeholder='パスワード' required pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!-/:-@[-`{-~])[!-~]{5,100}$')
+          //- .form-item.select__fieldset(style='max-width:none')
+          //-   label.select__label(for='date_of_birth') 生年月日
+          //-   input#date_of_birth.large.hasDatepicker(type='text' name='customer[note][生年月日]' readonly placeholder='生年月日' maxlength='10')
+          //- .form-item(style='max-width:none')
+          //-   fieldset.radio__fieldset
+          //-     legend.radio__legend.radio__legend--flex
+          //-       span.radio__legend__label 性別
+          //-   .c-form__group
+          //-     label.c-radio.c-form__option
+          //-       input(type='radio' value='男' name='customer[note][性別]' required)
+          //-       span 男
+          //-     label.c-radio.c-form__option
+          //-       input(type='radio' value='女' name='customer[note][性別]')
+          //-       span 女
+          //-     label.c-radio.c-form__option
+          //-       input(type='radio' value='その他' name='customer[note][性別]')
+          //-       span その他
+          //- .form-item.select__fieldset(style='max-width:none')
+          //-   label.select__label お住まいの地域
+          //-   select(name='customer[note][都道府県]' required)
+          //-     option(value selected) 都道府県
+          //-     option(value='北海道') 北海道
+          //-     option(value='青森県') 青森県
+          //-     option(value='岩手県') 岩手県
+          //-     option(value='宮城県') 宮城県
+          //-     option(value='秋田県') 秋田県
+          //-     option(value='山形県') 山形県
+          //-     option(value='福島県') 福島県
+          //-     option(value='茨城県') 茨城県
+          //-     option(value='栃木県') 栃木県
+          //-     option(value='群馬県') 群馬県
+          //-     option(value='埼玉県') 埼玉県
+          //-     option(value='千葉県') 千葉県
+          //-     option(value='東京都') 東京都
+          //-     option(value='神奈川県') 神奈川県
+          //-     option(value='新潟県') 新潟県
+          //-     option(value='富山県') 富山県
+          //-     option(value='石川県') 石川県
+          //-     option(value='福井県') 福井県
+          //-     option(value='山梨県') 山梨県
+          //-     option(value='長野県') 長野県
+          //-     option(value='岐阜県') 岐阜県
+          //-     option(value='静岡県') 静岡県
+          //-     option(value='愛知県') 愛知県
+          //-     option(value='三重県') 三重県
+          //-     option(value='滋賀県') 滋賀県
+          //-     option(value='京都府') 京都府
+          //-     option(value='大阪府') 大阪府
+          //-     option(value='兵庫県') 兵庫県
+          //-     option(value='奈良県') 奈良県
+          //-     option(value='和歌山県') 和歌山県
+          //-     option(value='鳥取県') 鳥取県
+          //-     option(value='島根県') 島根県
+          //-     option(value='岡山県') 岡山県
+          //-     option(value='広島県') 広島県
+          //-     option(value='山口県') 山口県
+          //-     option(value='徳島県') 徳島県
+          //-     option(value='香川県') 香川県
+          //-     option(value='愛媛県') 愛媛県
+          //-     option(value='高知県') 高知県
+          //-     option(value='福岡県') 福岡県
+          //-     option(value='佐賀県') 佐賀県
+          //-     option(value='長崎県') 長崎県
+          //-     option(value='熊本県') 熊本県
+          //-     option(value='大分県') 大分県
+          //-     option(value='宮崎県') 宮崎県
+          //-     option(value='鹿児島県') 鹿児島県
+          //-     option(value='沖縄県') 沖縄県
+          //-   input#area.large(type='text' name='customer[note][市区町村]' placeholder='市区町村' required style='width:100%;margin-top:0;')
+          //- .form-item(style='max-width:none')
+          //-   fieldset.radio__fieldset
+          //-     legend.radio__legend.radio__legend--flex
+          //-       span.radio__legend__label 婚姻状況
+          //-   .c-form__group
+          //-     label.c-radio.c-form__option
+          //-       input(type='radio' value='既婚' name='customer[note][婚姻状況]' required)
+          //-       span 既婚
+          //-     label.c-radio.c-form__option
+          //-       input(type='radio' value='未婚' name='customer[note][婚姻状況]' required)
+          //-       span 未婚
+          //-     label.c-radio.c-form__option
+          //-       input(type='radio' value='その他' name='customer[note][婚姻状況]' required)
+          //-       span その他
+          //- .form-item(style='max-width:none')
+          //-   fieldset.radio__fieldset
+          //-     legend.radio__legend.radio__legend--flex
+          //-       span.radio__legend__label 同居家族構成
+          //-   .c-form__group
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='本人' name='customer[note][同居家族構成][]' checked)
+          //-       span 本人
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='配偶者' name='customer[note][同居家族構成][]')
+          //-       span 配偶者
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='社会人のお子様' name='customer[note][同居家族構成][]')
+          //-       span 社会人のお子様
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='大学生のお子様' name='customer[note][同居家族構成][]')
+          //-       span 大学生のお子様
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='高校生のお子様' name='customer[note][同居家族構成][]')
+          //-       span 高校生のお子様
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='中学生のお子様' name='customer[note][同居家族構成][]')
+          //-       span 中学生のお子様
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='小学生のお子様' name='customer[note][同居家族構成][]')
+          //-       span 小学生のお子様
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='未就学のお子様' name='customer[note][同居家族構成][]')
+          //-       span 未就学のお子様
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='乳幼児' name='customer[note][同居家族構成][]')
+          //-       span 乳幼児
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='ご両親' name='customer[note][同居家族構成][]')
+          //-       span ご両親
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='その他' name='customer[note][同居家族構成][]')
+          //-       span その他
+          //- .form-item.select__fieldset(style='max-width:none')
+          //-   label.select__label 現在のご職業(任意)
+          //-   select(name='customer[note][現在のご職業]' required)
+          //-     option(value selected) 現在のご職業
+          //-     option(value='会社経営・役員') 会社経営・役員
+          //-     option(value='営業・販売・企画職') 営業・販売・企画職
+          //-     option(value='事務職') 事務職
+          //-     option(value='技術専門職（コンピューター関連・弁護士・デザイナー・編集等）') 技術専門職（コンピューター関連・弁護士・デザイナー・編集等）
+          //-     option(value='公務員・教育・医療関連') 公務員・教育・医療関連
+          //-     option(value='サービス業') サービス業
+          //-     option(value='商工自営業') 商工自営業
+          //-     option(value='フリーランス・SOHO等自由業') フリーランス・SOHO等自由業
+          //-     option(value='主婦（兼業・パートタイマー）') 主婦（兼業・パートタイマー）
+          //-     option(value='主婦（家事兼業）') 主婦（家事兼業）
+          //-     option(value='主婦（兼業・育児休職中）') 主婦（兼業・育児休職中）
+          //-     option(value='学生') 学生
+          //-     option(value='その他') その他
+          //-   input(type='text' name='customer[note][現在のご職業(その他)]' placeholder='その他の場合' style='width:100%;margin-top:0;')
+          //- .form-item(style='max-width:none')
+          //-   fieldset.radio__fieldset
+          //-     legend.radio__legend.radio__legend--flex
+          //-       span.radio__legend__label 現在お持ちの自転車(任意)
+          //-   .c-form__group
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='ロード・クロス' name='customer[note][現在お持ちの自転車][]')
+          //-       span ロード・クロス
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='子供乗せ自転車' name='customer[note][現在お持ちの自転車][]')
+          //-       span 子供乗せ自転車
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='シティサイクル' name='customer[note][現在お持ちの自転車][]')
+          //-       span シティサイクル
+          //-     label.c-checkbox.c-form__option
+          //-       input(type='checkbox' value='お子様用自転車' name='customer[note][現在お持ちの自転車][]')
+          //-       span お子様用自転車
+          //- div(style='margin:30px auto')
+          //-   p(style='margin-bottom:1em')
+          //-     a.text-link(href='/policies/terms-of-service' target='_blank') 利用規約
+          //-     |  に同意してお進みください
+          //-   label.label-block.c-checkbox.btn.btn--secondary
+          //-     input#check-ok(type='checkbox' value='OK' required)
+          //-     span 利用規約に同意する
+          script(src='//code.jquery.com/jquery-3.6.0.min.js' type='text/javascript')
+          script(src='//code.jquery.com/ui/1.12.1/jquery-ui.min.js' type='text/javascript')
+          script(src='//rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-ja.js' type='text/javascript')
+          script.
+            $(function() {
+              $("#date_of_birth").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'yy-mm-dd',
+                yearRange: '-90:-10',
+                defaultDate: '-30y'
+              })
+              .css('ime-mode', 'disabled')
+              .attr('maxlength', '10');
+            });
+
+          .form-field.action-bottom
+            input.btn.btn--full(type='submit' value='登録する')
+
+//- script(src='//code.jquery.com/jquery-3.6.0.min.js' type='text/javascript')
+script(src='https://cdn.jsdelivr.net/gh/mattkingshott/iodine/dist/iodine.min.umd.js')
+script.
+  function form(){
+    return {
+      inputElements: [],
+      init() {
+        this.setCustomRules()
+        //Store an array of all the input elements with 'data-rules' attributes
+        this.inputElements = [...this.$el.querySelectorAll("input[data-rules]")];
+        this.initDomData();
+        this.updateErrorMessages();
+      },
+      initDomData: function () {
+        //Create an object attached to the component state for each input element to store its state
+        this.inputElements.map((ele) => {
+          //- console.log(this.getInputName(ele.name))
+          //- console.log(ele.dataset.serverErrors)
+          this[`${this.getInputName(ele.name)}`] = {
+            serverErrors: JSON.parse(ele.dataset.serverErrors),
+            blurred: false
+          };
+          //- console.log(this[`${this.getInputName(ele.name)}`])
+        });
+      },
+      updateErrorMessages: function () {
+        //map throught the input elements and set the 'errorMessage'
+        this.inputElements.map((ele) => {
+          console.log(this[`${this.getInputName(ele.name)}`])
+          this[`${this.getInputName(ele.name)}`].errorMessage = this.getErrorMessage(ele);
+          console.log(this[`${this.getInputName(ele.name)}`])
+        });
+      },
+      getErrorMessage: function (ele) {
+        //Return any server errors if they're present
+        if (this[`${this.getInputName(ele.name)}`].serverErrors.length > 0 && !this[`${this.getInputName(ele.name)}`].blurred) {
+          console.log("serror")
+          return this[`${this.getInputName(ele.name)}`].serverErrors[0];
+        }
+
+        //Check using iodine and return the error message only if the element has not been blurred
+        const error = Iodine.is(ele.value, JSON.parse(ele.dataset.serverErrors));
+        console.log("elog:")
+        console.log(error)
+        if (error !== true) {
+          return Iodine.getErrorMessage(error);
+        }
+
+        //return empty string if there are no errors
+        return "";
+      },
+      submit: function (event) {
+        const invalidElements = this.inputElements.filter((input) => {
+          return Iodine.is(input.value, JSON.parse(input.dataset.rules)) !== true;
+        });
+        if (invalidElements.length > 0) {
+          event.preventDefault();
+          document.getElementById(invalidElements[0].id).scrollIntoView();
+          //We set all the inputs as blurred if the form has been submitted
+          this.inputElements.map((input) => {
+            this[this.getInputName(input.name)].blurred = true;
+          });
+          //And update the error messages.
+          this.updateErrorMessages();
+        }
+      },
+      change: function (event) {
+        //Ignore all events that aren't coming from the inputs we're watching
+        if (!this[`${this.getInputName(event.target.name)}`]) {
+          return false;
+        }
+        if (event.type === "input") {
+          this[`${this.getInputName(event.target.name)}`].serverErrors = [];
+          //- console.log('input')
+          //- console.log(this[`${this.getInputName(event.target.name)}`].serverErrors.length)
+        }
+        if (event.type === "focusout") {
+          this[`${this.getInputName(event.target.name)}`].blurred = true;
+          //- console.log('focusout')
+          //- console.log(this[`${this.getInputName(event.target.name)}`])
+        }
+        //Whether blurred or on input, we update the error messages
+        this.updateErrorMessages();
+      },
+      getInputName(name){
+        return name.replace('[','__').replace(']','')
+      },
+      setCustomRules(){
+        //Set up custom Iodine rules
+        Iodine.addRule(
+          "matchingPassword",
+          (value) => value === document.getElementById("password").value
+        );
+        Iodine.messages.matchingPassword =
+          "Password confirmation needs to match password";
+      }
+    };
+  }
+script(src='https://unpkg.com/alpinejs@3.3.4/dist/cdn.min.js')
+script.
+  Alpine.data("form", form);
+  Alpine.start();
+
+.st-doc
+  :md
+    # 防犯登録の店舗選択
+    APIの仕様が確認できるまでの仮の構成
+    モーダルの機能自体は.js-modalの方で実装している
+    モーダルの動きに合わせて何かする場合は@clickとかで動作を追加すればOK

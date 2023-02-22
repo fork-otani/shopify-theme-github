@@ -1,0 +1,17 @@
+@mixin sp($media: $spMediaW ) {
+  @media screen and (max-width: $media) {
+    @content;
+  }
+}
+
+@mixin pc() {
+  @media print, screen and (min-width: $pcMediaW) {
+    @content;
+  }
+}
+
+@mixin tab($media: $TABMediaW) {
+  @media screen and (min-width: $PCMediaW) and (max-width: $media) {
+    @content;
+  }
+}

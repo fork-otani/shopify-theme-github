@@ -1,0 +1,19 @@
+.scroll-box{
+  width:100%;
+  border:1px solid #ccc;
+  border-radius:10px;
+  padding:10px;
+  h1{font-size:2rem}
+  h2{font-size:1.8rem}
+  h3{font-size:1.5rem}
+  h4,h5,h6{font-size:1.2rem}
+  &__inner{
+    overflow-y:scroll;
+    padding:0 10px;
+    min-height:400px;
+    text-align:left;
+  }
+
+}
+
+

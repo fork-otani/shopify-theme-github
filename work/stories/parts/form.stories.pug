@@ -1,0 +1,107 @@
+h1 フォームパーツ
+p 作りたいパーツがあった時に、調査しつつ追加
+
+
+h2 ラジオ
+
+fieldset.custom-form__block.custom-form__block--group.form-item
+  legend.custom-form__label ラベル名
+  div
+    input#Form-section-1.contactFormRadio(type='radio' name='contact[{{ block.settings.title | handleize | default: \'radio\' }}]' value='{{ block.settings.label-one }}')
+    label(for='Form-section-1') アイテム1
+  div
+    input#Form-section-2.contactFormRadio(type='radio' name='contact[{{ block.settings.title | handleize | default: \'radio\' }}]' value='{{ block.settings.label-one }}')
+    label(for='Form-section-2') アイテム2
+
+  div
+    label.c-checkbox
+      input(type='checkbox' name='checkbox')
+      span アイテム1
+    label.c-checkbox
+      input(type='checkbox' name='checkbox')
+      span アイテム2
+  div
+    label.c-radio
+      input(type='radio' name='radio1')
+      span アイテム1
+    label.c-radio
+      input(type='radio' name='radio1')
+      span アイテム2
+
+
+
+
+fieldset.radio__fieldset
+  legend.radio__legend.radio__legend--flex
+    span.radio__legend__label ラベル
+    .radio__legend__dot &nbsp;
+    a.size-popup-link(href='{{ size_page.url }}' data-product-popup='size-{{ section.id }}') サイズ
+
+  span.radio__button
+    input#radio1(type='radio' data-single-option-selector data-index name='options')
+    label(for='radio1')
+      span ラジオテキスト
+  span.radio__button
+    input#radio2(type='radio' data-single-option-selector data-index name='options')
+    label(for='radio2')
+      span ラジオテキスト
+  span.radio__button
+    input#radio3(type='radio' data-single-option-selector data-index name='options')
+    label(for='radio3')
+      span ラジオテキスト
+
+
+fieldset.product__subs(data-subscription-selectors)
+  legend.visually-hidden {{ 'products.product.subscription' | t }}
+  .product__subs__group
+    label.product__subs__option
+      input(type='radio' name='selling-plan-group' data-toggles-group checked)
+      span test
+    label.product__subs__option
+      input(type='radio' name='selling-plan-group' data-toggles-group)
+      span test
+    label.product__subs__option
+      input(type='radio' name='selling-plan-group' data-toggles-group)
+      span test
+  .product__subs__group
+    label.product__subs__option.c-checkbox
+      input(type='checkbox' name='selling-plan-group' data-toggles-group checked)
+      span test
+    label.product__subs__option.c-checkbox
+      input(type='checkbox' name='selling-plan-group' data-toggles-group)
+      span test
+    label.product__subs__option.c-checkbox
+      input(type='checkbox' name='selling-plan-group' data-toggles-group)
+      span test
+
+
+link(rel="stylesheet" href="components/c-form.css")
+.c-form
+  fieldset.c-form__fieldset
+    legend.c-form__legend
+      span.c-form__legend__label ラベル
+    .c-form__group
+      label.c-form__option.c-radio
+        input(type='radio' name='selling-plan-group' checked)
+        span test
+      label.c-form__option.c-radio
+        input(type='radio' name='selling-plan-group')
+        span test
+      label.c-form__option.c-radio
+        input(type='radio' name='selling-plan-group')
+        span test
+  fieldset.c-form__fieldset
+    legend.c-form__legend
+      span.c-form__legend__label ラベル
+    .c-form__group
+      label.c-form__option.c-checkbox
+        input(type='checkbox' name='checkbox' checked)
+        span test
+      label.c-form__option.c-checkbox
+        input(type='checkbox' name='checkbox')
+        span test
+      label.c-form__option.c-checkbox
+        input(type='checkbox' name='checkbox')
+        span test
+
+

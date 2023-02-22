@@ -1,0 +1,229 @@
+link(rel="stylesheet" href="components/c-form.css")
+link(rel="stylesheet" href="components/shopselect/shopselect.css")
+link(rel="stylesheet" href="components/js-modal/js-modal.css")
+//- script(src='assets/vue.min.js')
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script><!-- デバッグ版-->
+script(src='//code.jquery.com/jquery-3.6.0.min.js' type='text/javascript')
+<script src="assets/shopselect.js"></script>
+
+div(style="background:red;height:50px;width:100%;")
+div(style="position:relative;")
+  #shop-select
+    input(type='hidden' name='attributes[商品受取店舗コード]' v-model='select.shop.code' :disabled='!hasSelectShop')
+    input(type='hidden' name='attributes[商品受取店舗名]' v-model='select.shop.name' :disabled='!hasSelectShop')
+    input(type='hidden' name='attributes[商品受取店舗住所]' v-model='select.shop.address_name' :disabled='!hasSelectShop')
+    input(type='hidden' name='attributes[商品受取店舗電話番号]' v-model='select.shop.phone' :disabled='!hasSelectShop')
+    button.btn.btn--full.btn--neutral(type="button" @click="isModal=true" v-if='!hasSelectShop') 商品を受け取る自転車屋さんを選ぶ
+    template(v-if="hasSelectShop")
+      .shopselect-footer
+        <b>商品受取店舗</b>
+        p.small
+          | 名称 :
+          span(v-text='select.shop.name')
+          br
+          | 住所 :
+          span(v-text='select.shop.address_name')
+          br
+          | 電話番号 :
+          span(v-text='select.shop.phone')
+        button.btn.btn--input.btn--secondary.btn--outline.p(type="button" @click='onSelectAgain') もう一度選びなおす
+    //- template(v-if="!hasSelectShop")
+    template
+      transition
+        .shopselect-modal(v-show="isModal")
+          .js-modal-overlay(@click="tmp.area=select.area;tmp.shop=select.shop;isModal=false;")
+          .js-modal-container
+            .js-modal-content
+              .js-modal-content__close.js-modal-close(@click="isModal=false")
+                include ../../../../snippets/icon-close.liquid
+
+              .js-modal-content__body
+                .shopselect-area(v-if="!hasTmpArea")
+                  .shopselect-header
+                    .shopselect-title ご希望のエリアを選択してください。<br class="sp-only">(複数選択可能)
+                  .shopselect-body
+                    div(v-show="isEmpty(areaList)") データにアクセスできませんでした
+                    ul.shopselect-area__list.c-form__group(v-show="!isEmpty(areaList)")
+                      template(v-for='area in areaList')
+                        label.c-form__option.c-checkbox
+                          input(type="checkbox" :value="area.code" v-model="checkArea")
+                          span(v-text='area.name')
+                  .shopselect-bottom
+                    button.btn.btn--primary(type="button" @click='onSelectTmpArea' :disabled='!hasCheckArea' :class="{'is-disabled':!hasCheckArea}") 自転車屋さんを選択する
+
+                .shopselect-shop(v-if='hasTmpArea')
+                  .shopselect-header
+                    .shopselect-title 商品を受取る自転車屋さんを選んでください。({{shopAreaCount}}件見つかりました。)
+                  .shopselect-body
+                    template(v-for='(shopArea,index) in shopAreaList')
+                      .shoplist__area(v-text="shopArea.name")
+                      .shoplist__list.product__subs__group
+                        template(v-for='(shop,index) in shopArea.shops')
+                          label.shoplist__item.product__subs__option( @click='onSelectTmpShop(shop.code)' :class="{'shoplist__item--active': tmp.shop.code === shop.code }" :key="shop.code")
+                            input(type='radio' name='shop' :value="shop.code")
+                            dl.shoplist__info
+                              dt.shoplist__info__title(v-text="shop.name")
+                              dd.shoplist__info__data(v-text="shop.address_name")
+                              dd.shoplist__info__data(v-text="shop.phone")
+                              //- dd.shoplist__item__data(v-text="shop.holiday")
+                              //- dd.shoplist__item__data(v-text="shop.access")
+                  .shopselect-bottom
+                    button.btn.btn--secondary.btn--outline(type="button" @click='tmp.area={};') エリア選択に戻る
+                    button.btn.btn--primary(type="button" @click='onSelectShop' data-id="shopselect" :class="{'is-disabled':!hasTmpShop}" :disabled='!hasTmpShop' style="margin-left:10px;") 自転車屋さん<br class="sp-only">を選択する
+
+  button.btn.btn--full.cart__checkout(name="checkout")
+    | カートに追加
+
+script.
+  //- function parseJson(json){return json;}
+  var app = new Vue({
+    el: "#shop-select",
+    data(){
+      return{
+        api:{ //apiから取ったデータ
+          area:{},
+          shop:{},
+        },
+        tmp:{ //画面遷移で選んだもの
+          area:[],
+          shop:{},
+        },
+        select:{ //最終的に選択しているもの
+          area:[],
+          shop:{},
+        },
+        isModal:false,
+        checkArea:[],
+      }
+    },
+    methods:{
+      isEmpty(obj){
+        return !Object.keys(obj).length > 0;
+      },
+      onSelectTmpArea(){
+        const area_list = [];
+        this.checkArea.forEach(address_code => {
+          const area = this.api.area.items.find(item => item.code === address_code)
+          area_list.push(area)
+        });
+        this.tmp.area = area_list;
+      },
+      onSelectTmpShop(code){
+        this.tmp.shop = this.getShopData(code);
+      },
+      onSelectShop(){
+        this.select.area = this.tmp.area;
+        this.select.shop = this.tmp.shop;
+        this.isModal = false;
+      },
+      onSelectAgain(){
+        this.isModal=true;
+        //- this.select.area=[];
+        //- this.select.shop={};
+        this.tmp.area=[];
+        this.tmp.shop={};
+        this.checkArea=[];
+      },
+      getShopData(code){
+        return this.api.shop.items.find(shop => shop.code === code)
+      }
+    },
+    computed:{
+      addressCodeAll(){
+        const addresses = [];
+        if(!this.isEmpty(this.api.shop)){
+          this.api.shop.items.forEach(item => {
+            if(!addresses.includes(item.address_code)){
+              addresses.push(item.address_code)
+            }
+          })
+          addresses.sort();
+        }
+        return addresses;
+      },
+      areaList(){
+        let area_list = [];
+        if(!this.isEmpty(this.api.area) && !this.isEmpty(this.api.shop)){
+          this.addressCodeAll.forEach(address_code => {
+            const area = this.api.area.items.find(item => item.code === address_code)
+            area_list.push({
+              code:area.code,
+              longname:area.name,
+              name:area.address[1].name,
+              ruby:area.address[1].ruby
+            })
+          })
+        }
+        return area_list;
+      },
+      shopAreaList(){
+        const data = [];
+        this.tmp.area.forEach( area => {
+          const area_item = {
+            code:area.code,
+            longname:area.name,
+            name:area.address[1].name,
+            ruby:area.address[1].ruby,
+            shops: this.api.shop.items.filter(shop => shop.address_code === area.code)
+          };
+          data.push(area_item);
+        })
+        return data;
+      },
+      shopAreaCount(){
+        let count = 0;
+        this.shopAreaList.forEach(area => count += area.shops.length)
+        return count;
+      },
+      hasCheckArea(){
+        return this.checkArea.length > 0;
+      },
+      hasTmpArea(){
+        return this.tmp.area.length > 0;
+      },
+      hasTmpShop(){
+        return !this.isEmpty(this.tmp.shop);
+      },
+      hasSelectShop(){
+        //- this.isModal=false;
+        return !this.isEmpty(this.select.shop);
+      },
+
+    },
+    mounted(){
+      this.api = apiData;
+      $(window).on('load',() => {
+        $(`.cart__checkout[name="checkout"]`).attr('disabled',true).addClass('is-disabled')
+        this.$watch('select.shop', currentValue => {
+          $(`.cart__checkout[name="checkout"]`).prop('disabled',!this.hasSelectShop)
+          if(this.hasSelectShop){
+            $(`.cart__checkout[name="checkout"]`)
+              .prop('disabled',false)
+              .removeClass('is-disabled')
+          }else{
+            $(`.cart__checkout[name="checkout"]`)
+              .prop('disabled',true)
+              .addClass('is-disabled')
+          }
+        });
+      })
+    },
+    watch:{
+      isModal:{
+        handler(newVal,oldVal){
+          if(newVal){
+            $('body').addClass('is-js-modal');
+          }else{
+            $('body').removeClass('is-js-modal');
+          }
+        }
+      }
+    }
+  });
+
+div(style="background:red;height:50px;width:100%;")
+.st-doc
+  :md
+    # 防犯登録の店舗選択
+    APIの仕様が確認できるまでの仮の構成
+    alpinejsで書いてたけど、forの入れ子が出来ないみたいなのでvueに変更
